@@ -10,6 +10,7 @@ import router from './router'
 
 // 导入自定义的 http 模块，将其挂载到 Vue 的原型链上
 import http from './ajax'
+
 Vue.prototype.$ = http
 
 // 配置生产环境提示
