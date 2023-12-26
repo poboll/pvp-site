@@ -7,8 +7,11 @@ const app = express();
 // 默认端口，如果环境变量中有指定端口则使用环境变量中的值，否则使用3000端口
 const port = process.env.PORT || 3000;
 
-// 引入名为'admin'的路由模块，并将express实例传递给该模块，这样admin里就有一个app可用
+// 引入后端路由：将express实例传递给该模块，这样admin里就有一个app可用
 require('./routes/admin')(app);
+
+//引入数据库配置
+require('./plugins/db')(app)
 
 // 监听指定端口，当有请求到达时调用回调函数
 app.listen(port, () => {
