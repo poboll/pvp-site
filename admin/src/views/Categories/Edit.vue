@@ -13,6 +13,8 @@
 
             <!-- 表单项：保存按钮 -->
             <el-form-item>
+                <!-- 取消按钮，点击触发 cancel 方法 -->
+                <el-button @click="cancel">取消</el-button>
                 <!-- 提交按钮，点击触发 save 方法 -->
                 <el-button type="primary" native-type="submit">保存</el-button>
             </el-form-item>
@@ -51,10 +53,11 @@ export default {
                 if (this.id) {
                     res = await this.$.put(`categories/${this.id}`, this.model);
                 } else {
-                // 发送 post 请求创建新分类
-                res = await this.$.post('categories', this.model);
+                    // 发送 post 请求创建新分类
+                    res = await this.$.post('categories', this.model);
                 }
-                console.log(res);
+                const editTime = new Date();
+                console.log(`${editTime.toLocaleString()}\n保存成功，分类名称：${this.model.name}`);
                 // 保存成功后跳转到分类列表
                 this.$router.push('/categories/list');
                 // 弹出保存成功的消息
@@ -70,6 +73,11 @@ export default {
                     message: '保存失败'
                 });
             }
+        },
+        // 取消操作的方法
+        cancel() {
+            // 跳转回分类列表页
+            this.$router.push('/categories/list');
         }
     }
 };

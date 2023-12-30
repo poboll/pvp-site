@@ -14,6 +14,7 @@
                 <template slot-scope="scope">
                     <!-- 编辑按钮，点击时调用 edit 方法 按钮样式：text\primary-->
                     <el-button type="primary" size="small" @click="edit(scope.row._id)">编辑</el-button>
+                    <el-button type="primary" size="small" @click="del(scope.row)">删除</el-button>
                     <!-- @click="$router.push(`/categories/edit/${scope.row._id}`)")>-->
                 </template>
             </el-table-column>
@@ -33,11 +34,6 @@ export default {
             items: []
         };
     },
-    // 在组件创建时调用的生命周期钩子
-    created() {
-        // 调用 fetch 方法获取分类数据
-        this.fetch();
-    },
     // 组件的方法
     methods: {
         // 异步方法，用于获取分类数据
@@ -50,9 +46,37 @@ export default {
         //编辑
         edit(id) {
             this.$router.push(`/categories/edit/${id}`);
+        },
+        //删除
+        async del(row) {
+            this.$confirm(`是否确定要删除分类 "${row.name}" 吗？`, "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+            }).then(async () => {
+                const deletionTime = new Date();
+                await this.$.delete(`/category/${row._id}`)
+                console.log(`${deletionTime.toLocaleString()}\n删除分类${row.name}成功`);
+                this.$message({
+                    type: "success",
+                    message: "删除成功!"
+                });
+                this.fetch()
+            })
+            .catch(() => {
+                this.$message({
+                    type: "info",
+                    message: "已取消删除"
+                });
+            });
         }
-    }
-};
+    },
+    // 在组件创建时调用的生命周期钩子
+    created() {
+        // 调用 fetch 方法获取分类数据
+        this.fetch();
+    },
+}
 </script>
 
 /* 组件的局部样式，仅在当前组件生效，使用 SCSS 语法 */

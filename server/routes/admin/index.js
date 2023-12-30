@@ -49,6 +49,15 @@ module.exports = app => {
         res.send(model)
     });
 
+    //删除分类
+    router.delete('/category/:id', async (req, res) => {
+        // await Category.findOneAndDelete(req.params.id)
+        await Category.findByIdAndDelete(req.params.id, req.body)
+        res.send({
+            success: true
+        })
+    })
+
     // 将子路由挂载到 '/admin/api' 路径上
     // 这意味着访问 '/admin/api/categories' 将会触发上面定义的 POST 方法
     app.use('/admin/api', router);
