@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 标题：新建分类 -->
-        <h1>新建分类</h1>
+        <h1>{{ id ? '编辑' : '新建' }}分类</h1>
 
         <!-- 表单 -->
         <el-form label-width="120px" @submit.native.prevent="save">
@@ -19,10 +19,14 @@
         </el-form>
     </div>
 </template>
-  
+
 <script>
 export default {
-    name: "Create", // 组件名称
+    name: "edit", // 组件名称
+    // 路由解耦
+    props: {
+        id: {}
+    },
     data() {
         return {
             // 表单数据模型
@@ -31,12 +35,25 @@ export default {
             }
         };
     },
+    created() {
+        //&&代表满足前面的条件之后才执行后面的函数
+        this.id && this.getInfo();
+    },
     methods: {
+        async getInfo() {
+            let res = await this.$.get(`/categories/${this.id}`);
+            this.model = res.data;
+        },
         // 保存表单数据的方法
         async save() {
             try {
+                let res;
+                if (this.id) {
+                    res = await this.$.put(`categories/${this.id}`, this.model);
+                } else {
                 // 发送 post 请求创建新分类
-                let res = await this.$http.post('categories', this.model);
+                res = await this.$.post('categories', this.model);
+                }
                 console.log(res);
                 // 保存成功后跳转到分类列表
                 this.$router.push('/categories/list');
@@ -57,5 +74,5 @@ export default {
     }
 };
 </script>
-  
+
 <style scoped lang="scss"></style>

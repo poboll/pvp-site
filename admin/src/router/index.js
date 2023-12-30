@@ -20,7 +20,7 @@ const routes = [
     component: Home,   // 对应的组件
     children: [        // 子路由
       { path: '/categories/create', component: CategoryEdit },  // 创建分类
-      { path: '/categories/edit/:id', component: CategoryEdit, props: true },  // 编辑分类，传递 id 作为 props
+      { path: '/categories/edit/:id', component: CategoryEdit, props: true },  // 编辑分类，传递 id 作为 props, 将任何参数注入
       { path: '/categories/list', component: CategoryList }  // 分类列表
     ]
   }
