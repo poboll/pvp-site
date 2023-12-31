@@ -41,7 +41,7 @@ export default {
         // 异步方法，用于获取分类数据
         async fetch() {
             // 使用实例上的 $ 对象调用 get 方法，获取分类数据
-            let res = await this.$.get("categories");
+            let res = await this.$.get("rest/categories");
             // 将获取到的分类数据设置到组件的 items 属性上
             this.items = res.data;
         },
@@ -57,7 +57,7 @@ export default {
                 type: "warning"
             }).then(async () => {
                 const deletionTime = new Date();
-                await this.$.delete(`/category/${row._id}`)
+                await this.$.delete(`rest/category/${row._id}`)
                 console.log(`${deletionTime.toLocaleString()}\n删除分类${row.name}成功`);
                 this.$message({
                     type: "success",

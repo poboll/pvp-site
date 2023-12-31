@@ -10,7 +10,8 @@ const schema = new mongoose.Schema({
     // 定义父字段 "parent"，类型为字符串
     parent: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Category'
+        ref: 'Category',
+        required: false,
     },
 });
 

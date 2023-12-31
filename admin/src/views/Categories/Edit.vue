@@ -9,6 +9,9 @@
             <el-form-item label="上级分类">
                 <!-- 做 id 关联 -->
                 <el-select v-model="model.parent">
+                    <!-- 添加虚拟的上级分类，表示 "无上级分类" -->
+                    <el-option :label="'无上级分类'" :value="null"></el-option>
+                    <!-- 渲染真实的上级分类 -->
                     <el-option v-for="item in parents" :key="item._id" :label="item.name" :value="item._id">
                     </el-option>
                 </el-select>
@@ -42,7 +45,7 @@ export default {
             // 表单数据模型
             model: {
                 // 初始值
-                parent: '',
+                parent: null,
                 name: ''
             },
             parents: [],
@@ -56,12 +59,12 @@ export default {
     methods: {
         //初始化上级分类
         async getParents() {
-            let res = await this.$.get(`/categories`);//`/parent-options`
+            let res = await this.$.get(`rest/categories`);//`/parent-options`
             this.parents = res.data;
         },
         //获取分类信息
         async getInfo() {
-            let res = await this.$.get(`/categories/${this.id}`);
+            let res = await this.$.get(`rest/categories/${this.id}`);
             this.model = res.data;
         },
         // 保存表单数据的方法
@@ -69,10 +72,10 @@ export default {
             try {
                 let res;
                 if (this.id) {
-                    res = await this.$.put(`categories/${this.id}`, this.model);
+                    res = await this.$.put(`rest/categories/${this.id}`, this.model);
                 } else {
                     // 发送 post 请求创建新分类
-                    res = await this.$.post('categories', this.model);
+                    res = await this.$.post('rest/categories', this.model);
                 }
                 const editTime = new Date();
                 console.log(`${editTime.toLocaleString()}\n保存成功，分类名称：${this.model.name}`);
