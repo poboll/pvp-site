@@ -6,7 +6,12 @@ const schema = new mongoose.Schema({
     // 定义字段 "name"，类型为字符串
     name: {
         type: String
-    }
+    },
+    // 定义父字段 "parent"，类型为字符串
+    parent: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Category'
+    },
 });
 
 // 使用mongoose的Schema来定义数据模型（Model）"Category"

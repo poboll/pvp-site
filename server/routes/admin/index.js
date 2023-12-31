@@ -26,8 +26,9 @@ module.exports = app => {
     // 在子路由上添加一个 GET 方法，接口地址是 '/categories'
     router.get('/categories', async (req, res) => {
         try {
-            // 从请求体中获取数据，创建 Category 模型实例
-            const items = await Category.find().limit(10);
+            // 从请求体中获取数据，创建 Category 模型实例、关联取出
+            // const items = await Category.find().limit(10);
+            const items = await Category.find().populate('parent').limit(10)
 
             // 将创建好的模型实例作为响应发送回客户端
             res.send(items);

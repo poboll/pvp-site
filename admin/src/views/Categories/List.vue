@@ -6,6 +6,8 @@
         <el-table :data="items">
             <!-- 配置表格列，显示 ID 列 -->
             <el-table-column prop="_id" label="ID" width="230"></el-table-column>
+            <!-- 上级分类名称 -->
+            <el-table-column prop="parent.name" label="上级分类"></el-table-column>
             <!-- 配置表格列，显示分类名称列 -->
             <el-table-column prop="name" label="分类名称"></el-table-column>
             <!-- 配置固定在右侧的操作列，包含编辑按钮 -->

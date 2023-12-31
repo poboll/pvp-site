@@ -5,6 +5,14 @@
 
         <!-- 表单 -->
         <el-form label-width="120px" @submit.native.prevent="save">
+            <!-- 下拉菜单：子分类 -->
+            <el-form-item label="上级分类">
+                <!-- 做 id 关联 -->
+                <el-select v-model="model.parent">
+                    <el-option v-for="item in parents" :key="item._id" :label="item.name" :value="item._id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
             <!-- 表单项：名称 -->
             <el-form-item label="名称">
                 <!-- 使用 v-model 双向绑定输入框的值与数据模型中的 name 属性 -->
@@ -33,15 +41,25 @@ export default {
         return {
             // 表单数据模型
             model: {
-                name: "" // 初始值为空字符串
-            }
+                // 初始值
+                parent: '',
+                name: ''
+            },
+            parents: [],
         };
     },
     created() {
+        this.getParents()
         //&&代表满足前面的条件之后才执行后面的函数
         this.id && this.getInfo();
     },
     methods: {
+        //初始化上级分类
+        async getParents() {
+            let res = await this.$.get(`/categories`);//`/parent-options`
+            this.parents = res.data;
+        },
+        //获取分类信息
         async getInfo() {
             let res = await this.$.get(`/categories/${this.id}`);
             this.model = res.data;
