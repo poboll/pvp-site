@@ -19,22 +19,22 @@ const routes = [
     name: 'home',      // 路由名称
     component: Home,   // 对应的组件
     children: [        // 子路由
-      { path: '/categories/create', name: 'create',component: CategoryEdit },  // 创建分类
-      { path: '/categories/list', name: 'list', component: CategoryList },  // 分类列表
-      { path: '/categories/edit/:id', name: 'edit', component: CategoryEdit, props: true },  // 编辑分类，传递 id 作为 props, 将任何参数注入
+      { path: '/categories/create', name: 'categoryCreate',component: CategoryEdit },  // 创建分类
+      { path: '/categories/list', name: 'categoryList', component: CategoryList },  // 分类列表
+      { path: '/categories/edit/:id', name: 'categoryEdit', component: CategoryEdit, props: true },  // 编辑分类，传递 id 作为 props, 将任何参数注入
       {
         path: 'items/create',
-        name: 'create',
+        name: 'itemCreate',
         component: () => import('@/views/Items/Edit')
       },
       {
         path: 'items/list',
-        name: 'list',
+        name: 'itemList',
         component: () => import('@/views/Items/List')
       },
       {
         path: 'items/edit/:id',
-        name: 'edit',
+        name: 'itemEdit',
         component: () => import('@/views/Items/Edit'),
         props: true
       }
