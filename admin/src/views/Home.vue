@@ -6,26 +6,18 @@
       <!-- el-aside 为侧边栏，设置宽度为 200px，背景颜色为浅灰色 -->
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <!-- el-menu 为菜单组件，使用 router 属性开启路由模式 -->
-        <el-menu router :default-openeds="['1', '3']">
+        <el-menu router :default-openeds="['1']" :default-active="$route.path">
           <!-- el-submenu 为子菜单组件，index 属性为子菜单的标识 -->
-          <el-submenu index="1">
+          <el-submenu v-for="(submenu, index) in menu" :index="String(++index)">
             <!-- 子菜单标题，包含一个图标和文字 -->
             <template slot="title">
-              <i class="el-icon-message"></i>
-              内容管理
+              <i :class="submenu.icon"></i>
+              {{ submenu.title }}
             </template>
             <!-- el-menu-item-group 为菜单项组，包含一个标题和多个菜单项 -->
-            <el-menu-item-group>
-              <!-- 组标题 -->
-              <template slot="title">分类</template>
-              <!-- 菜单项，使用 index 属性指定跳转路径 -->
-              <el-menu-item index="/categories/create">新建分类</el-menu-item>
-              <el-menu-item index="/categories/list">分类列表</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group>
-              <template slot="title">物品</template>
-              <el-menu-item index="/items/create">新建物品</el-menu-item>
-              <el-menu-item index="/items/list">物品列表</el-menu-item>
+            <el-menu-item-group v-for="(items, index) in submenu.itemsGroup">
+              <template slot="title">{{ items.itemsTitle }}</template>
+              <el-menu-item v-for="(item, index) in items.items" :index="item.path">{{ item.itemName }}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -77,7 +69,42 @@ export default {
   data() {
     return {
       // 组件数据，可以为空
-    }
+      //子菜单
+      menu: [
+        {
+          title: "内容管理",
+          icon: "el-icon-message",
+          itemsGroup: [
+            {
+              itemsTitle: "分类",
+              items: [
+                {
+                  itemName: "新建分类",
+                  path: "/categories/create"
+                },
+                {
+                  itemName: "分类列表",
+                  path: "/categories/list"
+                }
+              ]
+            },
+            {
+              itemsTitle: "物品",
+              items: [
+                {
+                  itemName: "新建物品",
+                  path: "/items/create"
+                },
+                {
+                  itemName: "物品列表",
+                  path: "/items/list"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
   }
 };
 </script>
