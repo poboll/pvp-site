@@ -10,6 +10,9 @@ app.use(require('cors')());
 // 使用 Express 内置的 JSON 解析中间件，处理请求体中的 JSON 数据
 app.use(express.json());
 
+//托管静态文件，使该目录里的文件可以被客户端通过 /upload 这个地址访问
+app.use('/uploads', express.static(`${__dirname}/uploads`))
+
 // 默认端口，如果环境变量中有指定端口则使用环境变量中的值，否则使用3000端口
 const port = process.env.PORT || 3000;
 
@@ -23,7 +26,7 @@ require('./plugins/db')(app);
 app.listen(port, () => {
     // 设置主机地址为 'localhost' 或 '127.0.0.1'，这里的 '0.0.0.0' 通常用于在本地和远程都可访问的情况
     const host = 'localhost' || '127.0.0.1'; // 或者使用 '0.0.0.0'
-    
+
     // 在控制台输出应用启动的消息，包括主机地址和端口号
     console.log(`App listening on http://${host}:${port}`);
 });

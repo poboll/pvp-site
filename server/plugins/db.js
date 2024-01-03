@@ -13,6 +13,6 @@ module.exports = app => {
 
     // 监听数据库连接的一次性事件，一旦数据库连接成功，执行回调函数
     mongoose.connection.once('open', () => {
-        console.log('连接成功～');  // 在控制台输出连接成功的消息
+        console.log('数据库连接成功～');  // 在控制台输出连接成功的消息
     });
 }

@@ -51,19 +51,19 @@ module.exports = app => {
         }
     });
 
-    //通过id获取分类详情
+    // 通过id获取分类详情
     router.get('/:id', async (req, res) => {
         const model = await req.Model.findById(req.params.id)
         res.send(model)
     });
 
-    //更新分类
+    // 更新分类
     router.put('/:id', async (req, res) => {
         const model = await req.Model.findByIdAndUpdate(req.params.id, req.body)
         res.send(model)
     });
 
-    //删除分类
+    // 删除分类
     router.delete('/:id', async (req, res) => {
         // await Category.findOneAndDelete(req.params.id)
         await req.Model.findByIdAndDelete(req.params.id, req.body)
@@ -75,12 +75,23 @@ module.exports = app => {
     // 将子路由挂载到 '/admin/api' 路径上
     // rest代表的是通用的接口；resource用来动态获取接口地址，如categories
     app.use('/admin/api/rest/:resource', async (req, res, next) => {
-        /**添加中间件处理 
-         * 获取resource字段是接口的名称，如categories，由于接口名称和模型名称有大小写和单复数区别
-         * 需要操作模型，使用 inflection 转换成类名
+        /** 添加中间件处理 
+         *  获取resource字段是接口的名称，如categories，由于接口名称和模型名称有大小写和单复数区别
+         *  需要操作模型，使用 inflection 转换成类名
          */
         const modelName = require('inflection').classify(req.params.resource)
         req.Model = require(`../../models/${modelName}`) // 给请求对象上挂载一个属性
         next()
     }, router)
+
+    const multer = require('multer')// 专门用于处理中间件
+    const upload = multer({ dest: `${__dirname}/../../uploads` })// 目标地址，当前文件夹目录__dirname
+    app.post('/admin/api/upload', upload.single('file'), async (req, res) => {// 接收上传的单个文件
+        // 之所以可以用req.file获取到文件数据，是因为用multer库的upload.single('file')将file参数赋值到req上
+        const file = req.file
+
+        // 给file里面添加一个url属性，作为前端展示图片的一个地址，需要用上面已有的file对象内的属性拼接出来
+        file.url = `http://localhost:3000/uploads/${file.filename}`
+        res.send(file)
+    })
 };
