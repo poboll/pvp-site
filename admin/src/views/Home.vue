@@ -8,16 +8,17 @@
         <!-- el-menu 为菜单组件，使用 router 属性开启路由模式 -->
         <el-menu router :default-openeds="['1']" :default-active="$route.path">
           <!-- el-submenu 为子菜单组件，index 属性为子菜单的标识 -->
-          <el-submenu v-for="(submenu, index) in menu" :index="String(++index)">
+          <el-submenu v-for="(submenu, index) in menu" :index="String(++index)" :key="index">
             <!-- 子菜单标题，包含一个图标和文字 -->
             <template slot="title">
               <i :class="submenu.icon"></i>
               {{ submenu.title }}
             </template>
             <!-- el-menu-item-group 为菜单项组，包含一个标题和多个菜单项 -->
-            <el-menu-item-group v-for="(items, index) in submenu.itemsGroup">
+            <el-menu-item-group v-for="(items, index) in submenu.itemsGroup" :key="index">
               <template slot="title">{{ items.itemsTitle }}</template>
-              <el-menu-item v-for="(item, index) in items.items" :index="item.path">{{ item.itemName }}</el-menu-item>
+              <el-menu-item v-for="(item, index) in items.items" :index="item.path" :key="index">{{ item.itemName
+              }}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -98,6 +99,19 @@ export default {
                 {
                   itemName: "物品列表",
                   path: "/items/list"
+                }
+              ]
+            },
+            {
+              itemsTitle: "英雄",
+              items: [
+                {
+                  itemName: "新建英雄",
+                  path: "/heroes/create"
+                },
+                {
+                  itemName: "英雄列表",
+                  path: "/heroes/list"
                 }
               ]
             }

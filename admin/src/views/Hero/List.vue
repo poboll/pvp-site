@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h1>物品列表</h1>
+        <h1>英雄列表</h1>
         <el-table :data="list" style="width: 100%">
             <el-table-column prop="_id" label="id"></el-table-column>
-            <el-table-column prop="name" label="物品名称"></el-table-column>
-            <el-table-column prop="icon" label="图标">
+            <el-table-column prop="name" label="英雄名称"></el-table-column>
+            <el-table-column prop="avatar" label="头像">
                 <template slot-scope="scope">
-                    <img :src="scope.row.icon" style="height: 3rem;" />
+                    <img :src="scope.row.avatar" style="height: 3rem;" />
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="操作" width="100">
@@ -21,24 +21,24 @@
 
 <script>
 export default {
-    name: "itemlist",
+    name: "heroList",
     data() {
         return {
             list: []
         };
     },
     created() {
-        this.getCategoryList();
+        this.getHeroList();
     },
     methods: {
-        // 获取分类列表
-        async getCategoryList() {
-            let res = await this.$.get("rest/items");
+        //获取英雄列表
+        async getHeroList() {
+            let res = await this.$.get("rest/heroes");
             this.list = res.data;
         },
         //编辑
         edit(id) {
-            this.$router.push(`/items/edit/${id}`);
+            this.$router.push(`/heroes/edit/${id}`);
         },
         //删除
         del(id) {
@@ -47,12 +47,12 @@ export default {
                 cancelButtonText: "取消",
                 type: "warning"
             }).then(async () => {
-                await this.$.delete(`rest/items/${id}`)
+                await this.$.delete(`rest/heroes/${id}`);
                 this.$message({
                     type: "success",
                     message: "删除成功!"
                 });
-                this.getCategoryList()
+                this.getHeroList();
             });
         }
     }
