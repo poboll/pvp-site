@@ -21,7 +21,7 @@
 
 <script>
 export default {
-    name: "itemedit",
+    name: "itemCreate",
     props: {
         id: {}
     },

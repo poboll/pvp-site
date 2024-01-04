@@ -28,7 +28,7 @@
 // 导出组件配置对象
 export default {
     // 组件名称
-    name: "items",
+    name: "categoryList",
     // 组件的数据
     data() {
         return {

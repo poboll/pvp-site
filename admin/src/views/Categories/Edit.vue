@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    name: "edit", // 组件名称
+    name: "categoryCreate", // 组件名称
     // 路由解耦
     props: {
         id: {}

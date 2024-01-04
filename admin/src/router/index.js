@@ -34,7 +34,7 @@ const routes = [
       },
       {
         path: 'items/edit/:id',
-        name: 'itemEdit',
+        name: 'itemCreate',
         component: () => import('@/views/Items/Edit'),
         props: true
       },
