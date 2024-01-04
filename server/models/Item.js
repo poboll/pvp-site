@@ -13,5 +13,5 @@ const schema = new mongoose.Schema({
     }
 })
 
-// 导出一个Category模型
+// 导出一个 Item 模型
 module.exports = mongoose.model('Item', schema)
