@@ -34,7 +34,7 @@ const routes = [
       },
       {
         path: 'items/edit/:id',
-        name: 'itemCreate',
+        name: 'itemEdit',
         component: () => import('@/views/Items/Edit'),
         props: true
       },
@@ -50,7 +50,7 @@ const routes = [
       },
       {
         path: 'heroes/edit/:id',
-        name: 'heroCreate',
+        name: 'heroEdit',
         component: () => import('@/views/Hero/Edit'),
         props: true
       }

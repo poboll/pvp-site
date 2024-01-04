@@ -41,7 +41,7 @@ const schema = new mongoose.Schema({
             type: Number
         },
     },
-    // 技能
+    // 技能，只要是复数就设置成数组
     skills: [
         {
             // 技能图标
@@ -55,9 +55,9 @@ const schema = new mongoose.Schema({
         }
     ],
     // 出装装备（顺风出装）
-    items1: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Items' }],
-    // 逆风出装
-    items2: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Items' }],
+    items1: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Item' }],
+    // 出装装备（逆风出装）
+    items2: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Item' }],
     // 使用技巧 
     usageTips: { type: String },
     // 对抗技巧

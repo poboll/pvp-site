@@ -44,12 +44,29 @@ export default {
             this.model = res.data;
         },
         async save() {
-            if (this.id) {
-                await this.$.put(`rest/items/${this.id}`, this.model);
-            } else {
-                await this.$.post("rest/items", this.model);
+            try {
+                if (this.id) {
+                    await this.$.put(`rest/items/${this.id}`, this.model);
+                } else {
+                    await this.$.post("rest/items", this.model);
+                }
+                const editTime = new Date();
+                console.log(`${editTime.toLocaleString()}\n保存成功，物品名称：${this.model.name}`);
+                // 保存成功后跳转到物品列表
+                this.$router.push("/items/list");
+                // 弹出保存成功的消息
+                this.$message({
+                    type: 'success',
+                    message: '保存成功'
+                });
+            } catch (error) {
+                console.error('保存失败', error);
+                // 处理保存失败的情况，例如弹出错误消息
+                this.$message({
+                    type: 'error',
+                    message: '保存失败'
+                });
             }
-            this.$router.push("/items/list");
         },
         //图片上传完成
         uploadSuccess(res) {

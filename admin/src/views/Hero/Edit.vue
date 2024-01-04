@@ -5,12 +5,54 @@
             <el-form-item label="名称">
                 <el-input v-model="model.name"></el-input>
             </el-form-item>
+            <el-form-item label="称号">
+                <el-input v-model="model.title"></el-input>
+            </el-form-item>
             <el-form-item label="头像">
                 <el-upload class="avatar-uploader" :action="`${$.defaults.baseURL}/upload`" :show-file-list="false"
                     :on-success="uploadSuccess">
                     <img v-if="model.avatar" :src="model.avatar" class="avatar" />
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
+            </el-form-item>
+            <el-form-item label="分类">
+                <el-select v-model="model.categories" multiple>
+                    <!-- (item, index) in categories -->
+                    <el-option v-for="item of categories" :key="item._id" :label="item.name" :value="item._id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="难度">
+                <el-rate style="margin-top: 0.6rem" :max="9" show-score v-model="model.scores.difficult"></el-rate>
+            </el-form-item>
+            <el-form-item label="技能">
+                <el-rate style="margin-top: 0.6rem" :max="9" show-score v-model="model.scores.skills"></el-rate>
+            </el-form-item>
+            <el-form-item label="攻击">
+                <el-rate style="margin-top: 0.6rem" :max="9" show-score v-model="model.scores.attack"></el-rate>
+            </el-form-item>
+            <el-form-item label="生存">
+                <el-rate style="margin-top: 0.6rem" :max="9" show-score v-model="model.scores.survive"></el-rate>
+            </el-form-item>
+            <el-form-item label="顺风出装">
+                <el-select v-model="model.items1" multiple>
+                    <el-option v-for="(item, index) in items" :key="item._id" :label="item.name"
+                        :value="item._id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="逆风出装">
+                <el-select v-model="model.items2" multiple>
+                    <el-option v-for="(item, index) in items" :key="item._id" :label="item.name"
+                        :value="item._id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="使用技巧">
+                <el-input type="textarea" v-model="model.usageTips"></el-input>
+            </el-form-item>
+            <el-form-item label="对抗技巧">
+                <el-input type="textarea" v-model="model.battleTips"></el-input>
+            </el-form-item>
+            <el-form-item label="团战思路">
+                <el-input type="textarea" v-model="model.teamTips"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" native-type="submit">保存</el-button>
@@ -21,35 +63,93 @@
 
 <script>
 export default {
-    name: "heroCreate",
+    name: "heroEdit",
     props: {
         id: {}
     },
     data() {
         return {
+            // 英雄信息
             model: {
-                name: '',
-                avatar: ''
-            }
+                // 名称
+                name: "",
+                // 称号
+                title: "",
+                // 头像
+                avatar: "",
+                // 分类
+                categories: [],
+                // 顺风出装
+                items1: [],
+                // 逆风出装
+                items2: [],
+                // 评分
+                scores: {
+                    difficult: 0,
+                    skills: 0,
+                    attach: 0,
+                    survive: 0
+                },
+                // 使用技巧
+                usageTips: "",
+                // 对抗技巧
+                battleTips: "",
+                // 团战思路
+                teamTips: ""
+            },
+            // 英雄分类
+            categories: [],
+            // 装备（物品）列表
+            items: []
         };
     },
     created() {
-        //&&代表满足前面的条件之后才执行后面的函数
-        this.id && this.getmodel();
+        this.getItemsList();
+        this.getCategories();
+        // &&代表满足前面的条件之后才执行后面的函数
+        this.id && this.getModel();
     },
     methods: {
-        //获取英雄信息
-        async getmodel() {
+        // 获取英雄信息
+        async getModel() {
             let res = await this.$.get(`rest/heroes/${this.id}`);
-            this.model = res.data;
+            // this.model = res.data; 导致将空数组赋值：属性合并、不影响默认数据
+            this.model = Object.assign({}, this.model, res.data);
+        },
+        // 获取英雄分类
+        async getCategories() {
+            let res = await this.$.get(`rest/categories`);
+            this.categories = res.data;
+        },
+        // 获取装备（物品）
+        async getItemsList() {
+            let res = await this.$.get("rest/items");
+            this.items = res.data;
         },
         async save() {
-            if (this.id) {
-                await this.$.put(`rest/heroes/${this.id}`, this.model);
-            } else {
-                await this.$.post("rest/heroes", this.model);
+            try {
+                if (this.id) {
+                    await this.$.put(`rest/heroes/${this.id}`, this.model);
+                } else {
+                    await this.$.post("rest/heroes", this.model);
+                }
+                const editTime = new Date();
+                console.log(`${editTime.toLocaleString()}\n保存成功，英雄名称：${this.model.name}`);
+                // 保存成功后跳转到英雄列表
+                this.$router.push("/heroes/list");
+                // 弹出保存成功的消息
+                this.$message({
+                    type: 'success',
+                    message: '保存成功'
+                });
+            } catch (error) {
+                console.error('保存失败', error);
+                // 处理保存失败的情况，例如弹出错误消息
+                this.$message({
+                    type: 'error',
+                    message: '保存失败'
+                });
             }
-            this.$router.push("/heroes/list");
         },
         // 图片上传完成
         uploadSuccess(res) {

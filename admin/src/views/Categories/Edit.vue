@@ -54,7 +54,7 @@ export default {
     created() {
         this.getParents()
         //&&代表满足前面的条件之后才执行后面的函数
-        this.id && this.getInfo();
+        this.id && this.getModel();
     },
     methods: {
         //初始化上级分类
@@ -63,7 +63,7 @@ export default {
             this.parents = res.data;
         },
         //获取分类信息
-        async getInfo() {
+        async getModel() {
             let res = await this.$.get(`rest/categories/${this.id}`);
             this.model = res.data;
         },
@@ -104,4 +104,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style></style>
