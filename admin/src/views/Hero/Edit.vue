@@ -2,7 +2,7 @@
     <div class="hero-container">
         <h1>{{ id ? '编辑' : '新建' }}英雄</h1>
         <el-form label-width="120px" @submit.native.prevent="save">
-            <el-tabs value="basic" type="border-card">
+            <el-tabs value="skills" type="border-card">
                 <el-tab-pane label="基础信息" name="basic">
                     <el-form-item label="名称">
                         <el-input v-model="model.name"></el-input>
@@ -58,8 +58,30 @@
                         <el-input type="textarea" v-model="model.teamTips"></el-input>
                     </el-form-item>
                 </el-tab-pane>
-                <el-tab-pane label="xx">xx</el-tab-pane>
-                <el-tab-pane label="xx">x</el-tab-pane>
+                <el-tab-pane label="技能" name="skills">
+                    <el-button size="small" @click="model.skills.push({})"> <i class="el-icon-plus"></i> 添加技能
+                    </el-button>
+                    <el-row type="flex" style="flex-wrap: wrap;">
+                        <el-col :md="12" v-for="(item, index) in model.skills" :key="index">
+                            <el-form-item label="名称">
+                                <el-input v-model="item.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="图标">
+                                <el-upload class="avatar-uploader" :action="`${$.defaults.baseURL}/upload`"
+                                    :show-file-list="false" :on-success="uploadSuccess">
+                                    <img v-if="item.icon" :src="item.icon" class="avatar" />
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                </el-upload>
+                            </el-form-item>
+                            <el-form-item label="描述">
+                                <el-input v-model="item.description" type="textarea"></el-input>
+                            </el-form-item>
+                            <el-form-item label="小提示">
+                                <el-input v-model="item.tips" type="textarea"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-tab-pane>
                 <el-tab-pane label="xx">x</el-tab-pane>
             </el-tabs>
             <el-form-item style="margin-top: 1rem;">
@@ -103,7 +125,9 @@ export default {
                 // 对抗技巧
                 battleTips: "",
                 // 团战思路
-                teamTips: ""
+                teamTips: "",
+                //技能
+                skills: []
             },
             // 英雄分类
             categories: [],
@@ -164,6 +188,15 @@ export default {
             // this.$set(this.model, 'avatar', res.url)
             // 提前定义普通赋值即可
             this.model.avatar = res.url;
+        },
+        //添加技能
+        addSkill() {
+            this.model.skills.push({});
+        },
+        //上传技能图标
+        uploadSkillIcon(res, index) {
+            console.log(res)
+            console.log(index)
         }
     }
 };
