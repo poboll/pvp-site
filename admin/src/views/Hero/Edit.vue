@@ -68,7 +68,7 @@
                             </el-form-item>
                             <el-form-item label="图标">
                                 <el-upload class="avatar-uploader" :action="`${$.defaults.baseURL}/upload`"
-                                    :show-file-list="false" :on-success="uploadSuccess">
+                                    :show-file-list="false" :on-success="res => $set(item, 'icon', res.url)">
                                     <img v-if="item.icon" :src="item.icon" class="avatar" />
                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                 </el-upload>
@@ -79,10 +79,12 @@
                             <el-form-item label="小提示">
                                 <el-input v-model="item.tips" type="textarea"></el-input>
                             </el-form-item>
+                            <el-form-item label="小提示">
+                                <el-button size="small" type="danger" @click="model.skills.splice(index, 1)">删除</el-button>
+                            </el-form-item>
                         </el-col>
                     </el-row>
                 </el-tab-pane>
-                <el-tab-pane label="xx">x</el-tab-pane>
             </el-tabs>
             <el-form-item style="margin-top: 1rem;">
                 <el-button type="primary" native-type="submit">保存</el-button>
@@ -188,15 +190,6 @@ export default {
             // this.$set(this.model, 'avatar', res.url)
             // 提前定义普通赋值即可
             this.model.avatar = res.url;
-        },
-        //添加技能
-        addSkill() {
-            this.model.skills.push({});
-        },
-        //上传技能图标
-        uploadSkillIcon(res, index) {
-            console.log(res)
-            console.log(index)
         }
     }
 };
@@ -218,15 +211,15 @@ export default {
 .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
+    width: 5rem;
+    height: 5rem;
+    line-height: 5rem;
     text-align: center;
 }
 
 .avatar {
-    width: 178px;
-    height: 178px;
+    width: 5rem;
+    height: 5rem;
     display: block;
 }
 </style>
