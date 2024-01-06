@@ -114,6 +114,19 @@ export default {
                   path: "/heroes/list"
                 }
               ]
+            },
+            {
+              itemsTitle: "文章",
+              items: [
+                {
+                  itemName: "新建文章",
+                  path: "/articles/create"
+                },
+                {
+                  itemName: "文章列表",
+                  path: "/articles/list"
+                }
+              ]
             }
           ]
         }
