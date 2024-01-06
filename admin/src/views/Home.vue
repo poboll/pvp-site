@@ -1,7 +1,6 @@
 <template>
   <div>
-
-    <!-- el-container 用于布局，设置高度为 100vh 表示占满整个视口高度 -->
+    <!-- el-container 用于整体布局，设置高度为 100vh 表示占满整个视口高度 -->
     <el-container style="height: 100vh">
       <!-- el-aside 为侧边栏，设置宽度为 200px，背景颜色为浅灰色 -->
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -17,8 +16,10 @@
             <!-- el-menu-item-group 为菜单项组，包含一个标题和多个菜单项 -->
             <el-menu-item-group v-for="(items, index) in submenu.itemsGroup" :key="index">
               <template slot="title">{{ items.itemsTitle }}</template>
-              <el-menu-item v-for="(item, index) in items.items" :index="item.path" :key="index">{{ item.itemName
-              }}</el-menu-item>
+              <!-- el-menu-item 为菜单项，设置路由路径 -->
+              <el-menu-item v-for="(item, index) in items.items" :index="item.path" :key="index">
+                {{ item.itemName }}
+              </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -39,9 +40,8 @@
             </el-dropdown-menu>
           </el-dropdown>
           <!-- 用户名显示区域 -->
-          <span>王小虎</span>
+          <span>在虎</span>
         </el-header>
-
         <!-- el-main 为主要内容区域，包含一个用于显示路由组件的 router-view -->
         <el-main>
           <router-view></router-view>
@@ -142,7 +142,6 @@ export default {
   color: #333;
   line-height: 60px;
 }
-
 .el-aside {
   color: #333;
 }

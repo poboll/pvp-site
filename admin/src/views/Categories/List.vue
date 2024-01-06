@@ -81,5 +81,4 @@ export default {
 }
 </script>
 
-/* 组件的局部样式，仅在当前组件生效，使用 SCSS 语法 */
-<style scoped lang="scss"></style>
+<style></style>

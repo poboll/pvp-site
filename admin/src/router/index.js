@@ -66,7 +66,7 @@ const routes = [
       },
       {
         path: 'articles/edit/:id',
-        name: 'articleCreate',
+        name: 'articleEdit',
         component: () => import('@/views/Articles/Edit'),
         props: true
       },
