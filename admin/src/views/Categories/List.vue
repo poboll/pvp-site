@@ -51,26 +51,32 @@ export default {
         },
         //删除
         async del(row) {
+            if (!row._id) {
+                this.$message({
+                    type: "warning",
+                    message: "分类ID无效，无法删除。"
+                });
+                return;
+            }
             this.$confirm(`是否确定要删除分类 "${row.name}" 吗？`, "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 type: "warning"
             }).then(async () => {
-                const deletionTime = new Date();
                 await this.$.delete(`rest/category/${row._id}`)
-                console.log(`${deletionTime.toLocaleString()}\n删除分类${row.name}成功`);
+                console.log(`${new Date().toLocaleString()}\n删除分类：${row.name}成功`);
                 this.$message({
                     type: "success",
                     message: "删除成功!"
                 });
                 this.fetch()
             })
-            .catch(() => {
-                this.$message({
-                    type: "info",
-                    message: "已取消删除"
+                .catch(() => {
+                    this.$message({
+                        type: "info",
+                        message: "已取消删除"
+                    });
                 });
-            });
         }
     },
     // 在组件创建时调用的生命周期钩子

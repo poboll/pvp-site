@@ -77,8 +77,7 @@ export default {
                     // 发送 post 请求创建新分类
                     res = await this.$.post('rest/categories', this.model);
                 }
-                const editTime = new Date();
-                console.log(`${editTime.toLocaleString()}\n保存成功，分类名称：${this.model.name}`);
+                console.log(`${new Date().toLocaleString()}\n保存分类：${this.model.name}成功`);
                 // 保存成功后跳转到分类列表
                 this.$router.push('/categories/list');
                 // 弹出保存成功的消息

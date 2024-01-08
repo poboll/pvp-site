@@ -67,6 +67,7 @@ export default {
             } else {
                 await this.$.post("rest/articles", this.article);
             }
+            console.log(`${new Date().toLocaleString()}\n保存文章：${this.article.title}成功`);
             // 保存成功后跳转到文章列表页
             this.$router.push("/articles/list");
         }

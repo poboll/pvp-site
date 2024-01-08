@@ -23,7 +23,7 @@
                     <!-- 编辑按钮，点击调用edit方法跳转到编辑页面 -->
                     <el-button type="text" size="small" @click="edit(scope.row._id)">编辑</el-button>
                     <!-- 删除按钮，点击弹出确认框，确认后调用del方法删除英雄并刷新列表 -->
-                    <el-button type="text" size="small" @click="del(scope.row._id)">删除</el-button>
+                    <el-button type="text" size="small" @click="del(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -56,14 +56,22 @@ export default {
             this.$router.push(`/heroes/edit/${id}`);
         },
         // 删除英雄，弹出确认框，确认后调用REST API删除英雄并刷新列表
-        del(id) {
-            this.$confirm("确认删除该分类吗？", "提示", {
+        async del(row) {
+            if (!row._id) {
+                this.$message({
+                    type: "warning",
+                    message: "英雄ID无效，无法删除。"
+                });
+                return;
+            }
+            this.$confirm(`是否确定要删除英雄 "${row.name}" 吗？`, "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 type: "warning"
             }).then(async () => {
                 // 调用REST API删除英雄
-                await this.$.delete(`rest/heroes/${id}`);
+                await this.$.delete(`rest/heroes/${row._id}`);
+                console.log(`${new Date().toLocaleString()}\n删除英雄：${row.name}成功`);
                 // 提示删除成功
                 this.$message({
                     type: "success",
@@ -71,7 +79,13 @@ export default {
                 });
                 // 删除成功后刷新英雄列表
                 this.getHeroList();
-            });
+            })
+                .catch(() => {
+                    this.$message({
+                        type: "info",
+                        message: "已取消删除"
+                    });
+                });
         }
     }
 };

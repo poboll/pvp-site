@@ -65,7 +65,7 @@ export default {
                 // 获取当前时间
                 const editTime = new Date();
                 // 打印保存成功信息
-                console.log(`${editTime.toLocaleString()}\n保存成功，物品名称：${this.model.name}`);
+                console.log(`${editTime.toLocaleString()}\n保存物品：${this.model.name}成功`);
                 // 保存成功后跳转到物品列表页
                 this.$router.push("/items/list");
                 // 弹出保存成功的消息

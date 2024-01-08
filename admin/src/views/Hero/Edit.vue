@@ -7,8 +7,14 @@
             <!-- 切换标签页，有两个标签页：基础信息和技能 -->
             <el-tabs value="skills" type="border-card">
                 <!-- 基础信息标签页 -->
-                <el-tab-pane label="基础信息" name="basic">
+                <el-tab-pane label="基本信息" name="basic">
                     <!-- 基础信息表单项：名称、称号、头像、分类、难度、技能等 -->
+                    <el-form-item label="名称">
+                        <el-input v-model="model.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="称号">
+                        <el-input v-model="model.title"></el-input>
+                    </el-form-item>
                     <!-- 上传头像的组件 -->
                     <el-form-item label="头像">
                         <el-upload class="avatar-uploader" :action="`${$.defaults.baseURL}/upload`" :show-file-list="false"
@@ -33,6 +39,33 @@
                         <el-rate style="margin-top: 0.6rem" :max="9" show-score v-model="model.scores.skills"></el-rate>
                     </el-form-item>
                     <!-- 其他表单项，包括顺风出装、逆风出装等 -->
+                    <el-form-item label="攻击">
+                        <el-rate style="margin-top: 0.6rem" :max="9" show-score v-model="model.scores.attach"></el-rate>
+                    </el-form-item>
+                    <el-form-item label="生存">
+                        <el-rate style="margin-top: 0.6rem" :max="9" show-score v-model="model.scores.survive"></el-rate>
+                    </el-form-item>
+                    <el-form-item label="顺风出装">
+                        <el-select v-model="model.items1" multiple>
+                            <el-option v-for="(item, index) in items" :key="item._id" :label="item.name"
+                                :value="item._id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="逆风出装">
+                        <el-select v-model="model.items2" multiple>
+                            <el-option v-for="(item, index) in items" :key="item._id" :label="item.name"
+                                :value="item._id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="使用技巧">
+                        <el-input type="textarea" v-model="model.usageTips"></el-input>
+                    </el-form-item>
+                    <el-form-item label="对抗技巧">
+                        <el-input type="textarea" v-model="model.battleTips"></el-input>
+                    </el-form-item>
+                    <el-form-item label="团战思路">
+                        <el-input type="textarea" v-model="model.teamTips"></el-input>
+                    </el-form-item>
                 </el-tab-pane>
                 <!-- 技能标签页 -->
                 <el-tab-pane label="技能" name="skills">
@@ -40,13 +73,32 @@
                     <el-button size="small" @click="model.skills.push({})"> <i class="el-icon-plus"></i> 添加技能
                     </el-button>
                     <!-- 技能列表，使用 el-row 和 el-col 来展示技能项的表单 -->
-                    <el-row type="flex" style="flex-wrap: wrap;">
-                        <el-col :md="12" v-for="(item, index) in model.skills" :key="index">
-                            <!-- 技能项表单，包括名称、图标、描述、小提示等 -->
-                            <!-- 删除按钮，点击调用 model.skills.splice(index, 1) 来删除对应的技能项 -->
+                    <el-row type="flex" style="flex-wrap: wrap">
+                        <el-col style="margin-top: 20px;" :md="12" v-for="(item, index) in model.skills" :key="index">
+                            <el-form-item label="名称">
+                                <el-input v-model="item.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="图标">
+                                <el-upload class="avatar-uploader" :action="`${$.defaults.baseURL}upload`"
+                                    :on-success="res => $set(item, 'icon', res.url)" :show-file-list="false">
+                                    <img v-if="item.icon" :src="item.icon" class="icon" />
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                </el-upload>
+                            </el-form-item>
+                            <el-form-item label="描述">
+                                <el-input type="textarea" v-model="item.description"></el-input>
+                            </el-form-item>
+                            <el-form-item label="小提示">
+                                <el-input v-model="item.tips"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button size="small" type="danger" @click="model.skills.splice(index, 1)">删除</el-button>
+                            </el-form-item>
                         </el-col>
                     </el-row>
                 </el-tab-pane>
+                <el-tab-pane label="xx">x</el-tab-pane>
+                <el-tab-pane label="xx">x</el-tab-pane>
             </el-tabs>
             <!-- 提交按钮 -->
             <el-form-item style="margin-top: 1rem;">
@@ -64,13 +116,39 @@ export default {
     },
     data() {
         return {
-            // 英雄信息
+            //英雄信息
             model: {
-                // 属性和默认值
+                //名称
+                name: "",
+                //称号
+                title: "",
+                //头像
+                avatar: "",
+                //分类
+                categories: [],
+                //顺风出装
+                items1: [],
+                //逆风出装
+                items2: [],
+                //评分
+                scores: {
+                    difficult: 0,
+                    skills: 0,
+                    attach: 0,
+                    survive: 0
+                },
+                //使用技巧
+                usageTips: "",
+                //对抗技巧
+                battleTips: "",
+                //团战思路
+                teamTips: "",
+                //技能
+                skills: []
             },
-            // 英雄分类
+            //英雄分类
             categories: [],
-            // 装备（物品）列表
+            //装备（物品）列表
             items: []
         };
     },
@@ -113,6 +191,7 @@ export default {
                 }
                 // 保存成功后跳转到英雄列表页
                 this.$router.push("/heroes/list");
+                console.log(`${new Date().toLocaleString()}\n保存英雄：${this.model.name}成功`);
                 // 弹出保存成功的消息
                 this.$message({
                     type: 'success',
@@ -143,9 +222,11 @@ export default {
     position: relative;
     overflow: hidden;
 }
+
 .avatar-uploader .el-upload:hover {
     border-color: #409eff;
 }
+
 .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -154,6 +235,7 @@ export default {
     line-height: 5rem;
     text-align: center;
 }
+
 .avatar {
     width: 5rem;
     height: 5rem;

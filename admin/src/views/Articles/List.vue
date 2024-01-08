@@ -47,7 +47,7 @@ export default {
             this.$router.push(`/item/articles/${id}`);
         },
         // 删除文章，弹出确认框，确认后调用REST API删除文章并刷新列表
-        del(row) {
+        async del(row) {
             if (!row._id) {
                 this.$message({
                     type: "warning",
@@ -63,6 +63,7 @@ export default {
             }).then(async () => {
                 // 调用REST API删除文章
                 await this.$.delete(`rest/articles/${row._id}`);
+                console.log(`${new Date().toLocaleString()}\n删除文章：${row.title}成功`);
                 // 提示删除成功
                 this.$message({
                     type: "success",
