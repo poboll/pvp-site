@@ -13,6 +13,9 @@
             <el-form-item label="标题">
                 <el-input v-model="article.title"></el-input>
             </el-form-item>
+            <el-form-item label="详情">
+                <el-input v-model="article.body"></el-input>
+            </el-form-item>
             <!-- 提交按钮 -->
             <el-form-item>
                 <el-button type="primary" native-type="submit">保存</el-button>
@@ -31,7 +34,9 @@ export default {
         return {
             // 文章信息对象，包含标题
             article: {
-                title: ""
+                title: "",
+                body: '',
+                categories: []
             },
             //文章分类
             categories: []
@@ -46,7 +51,7 @@ export default {
         // 获取文章信息
         async getInfo() {
             // 使用this.$来调用Vue实例的方法，通过REST API获取文章信息
-            let res = await this.$.get(`rest/article/${this.id}`);
+            let res = await this.$.get(`rest/articles/${this.id}`);
             // 将获取到的文章信息保存到article对象中
             this.article = res.data;
         },
