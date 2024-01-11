@@ -20,7 +20,7 @@
         </el-table>
     </div>
 </template>
-  
+
 <script>
 export default {
     name: "articleList",
@@ -44,7 +44,7 @@ export default {
         },
         // 编辑文章，跳转到编辑页面
         edit(id) {
-            this.$router.push(`/item/articles/${id}`);
+            this.$router.push(`/articles/edit/${id}`);
         },
         // 删除文章，弹出确认框，确认后调用REST API删除文章并刷新列表
         async del(row) {
@@ -55,7 +55,6 @@ export default {
                 });
                 return;
             }
-
             this.$confirm(`是否确定要删除文章 "${row.title}" 吗？`, "提示", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
