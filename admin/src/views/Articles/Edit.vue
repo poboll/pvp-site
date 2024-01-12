@@ -14,7 +14,7 @@
                 <el-input v-model="article.title"></el-input>
             </el-form-item>
             <el-form-item label="详情">
-                <vue-editor v-model="article.body"></vue-editor>
+                <vue-editor useCustomImageHandler @image-added="handleImageAdded" v-model="article.body"></vue-editor>
             </el-form-item>
             <!-- 提交按钮 -->
             <el-form-item>
@@ -75,6 +75,14 @@ export default {
             console.log(`${new Date().toLocaleString()}\n保存文章：${this.article.title}成功`);
             // 保存成功后跳转到文章列表页
             this.$router.push("/articles/list");
+        },
+        // 富文本编辑器上传图片
+        async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+            const formData = new FormData();
+            formData.append("file", file);
+            const res = await this.$.post("upload", formData);
+            Editor.insertEmbed(cursorLocation, "image", res.data.url);
+            resetUploader();
         }
     }
 };
