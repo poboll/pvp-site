@@ -127,6 +127,19 @@ export default {
                   path: "/articles/list"
                 }
               ]
+            },
+            {
+              itemsTitle: "广告",
+              items: [
+                {
+                  itemName: "新建广告",
+                  path: "/ads/create"
+                },
+                {
+                  itemName: "广告列表",
+                  path: "/ads/list"
+                }
+              ]
             }
           ]
         }

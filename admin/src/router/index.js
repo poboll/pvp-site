@@ -9,8 +9,8 @@ Vue.use(VueRouter)
 // 懒加载： 使用动态导入实现了懒加载，只有在需要时才会加载相应的组件，减小初始加载体积，提高应用性能。
 // 简洁： 相对路径使用别名@，使得路径更加简洁。
 const Home = () => import('@/views/Home')
-const CategoryEdit = () => import('@/views/Categories/Edit.vue')
-const CategoryList = () => import('@/views/Categories/List.vue')
+const CategoryEdit = () => import('@/views/Category/Edit.vue')
+const CategoryList = () => import('@/views/Category/List.vue')
 
 // 定义路由规则
 const routes = [
@@ -25,17 +25,17 @@ const routes = [
       {
         path: 'items/create',
         name: 'itemCreate',
-        component: () => import('@/views/Items/Edit')
+        component: () => import('@/views/Item/Edit')
       },
       {
         path: 'items/list',
         name: 'itemList',
-        component: () => import('@/views/Items/List')
+        component: () => import('@/views/Item/List')
       },
       {
         path: 'items/edit/:id',
         name: 'itemEdit',
-        component: () => import('@/views/Items/Edit'),
+        component: () => import('@/views/Item/Edit'),
         props: true
       },
       {
@@ -57,33 +57,33 @@ const routes = [
       {
         path: 'articles/create',
         name: 'articleCreate',
-        component: () => import('@/views/Articles/Edit')
+        component: () => import('@/views/Article/Edit')
       },
       {
         path: 'articles/list',
         name: 'articleList',
-        component: () => import('@/views/Articles/List')
+        component: () => import('@/views/Article/List')
       },
       {
         path: 'articles/edit/:id',
         name: 'articleEdit',
-        component: () => import('@/views/Articles/Edit'),
+        component: () => import('@/views/Article/Edit'),
         props: true
       },
       {
-        path: 'carousel/create',
-        name: 'carouselCreate',
-        component: () => import('@/views/Carousel/Edit')
+        path: 'ads/create',
+        name: 'adCreate',
+        component: () => import('@/views/Ad/Edit')
       },
       {
-        path: 'carousel/list',
-        name: 'carouselList',
-        component: () => import('@/views/Carousel/List')
+        path: 'ads/list',
+        name: 'adList',
+        component: () => import('@/views/Ad/List')
       },
       {
-        path: 'carousel/edit/:id',
-        name: 'carouselCreate',
-        component: () => import('@/views/Carousel/Edit'),
+        path: 'ads/edit/:id',
+        name: 'adCreate',
+        component: () => import('@/views/Ad/Edit'),
         props: true
       },
     ]

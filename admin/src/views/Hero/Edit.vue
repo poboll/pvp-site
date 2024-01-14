@@ -5,7 +5,7 @@
         <!-- 表单，@submit.native.prevent="save" 表示在表单提交时调用 save 方法并阻止默认事件 -->
         <el-form label-width="120px" @submit.native.prevent="save">
             <!-- 切换标签页，有两个标签页：基础信息和技能 -->
-            <el-tabs value="skills" type="border-card">
+            <el-tabs value="basic" type="border-card">
                 <!-- 基础信息标签页 -->
                 <el-tab-pane label="基本信息" name="basic">
                     <!-- 基础信息表单项：名称、称号、头像、分类、难度、技能等 -->
@@ -82,7 +82,7 @@
                                 <el-upload class="avatar-uploader" :action="`${$.defaults.baseURL}upload`"
                                     :on-success="res => $set(item, 'icon', res.url)" :show-file-list="false">
                                     <img v-if="item.icon" :src="item.icon" class="icon" />
-                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    <i v-else class="el-icon-plus skill-uploader-icon"></i>
                                 </el-upload>
                             </el-form-item>
                             <el-form-item label="描述">
@@ -97,8 +97,6 @@
                         </el-col>
                     </el-row>
                 </el-tab-pane>
-                <el-tab-pane label="xx">x</el-tab-pane>
-                <el-tab-pane label="xx">x</el-tab-pane>
             </el-tabs>
             <!-- 提交按钮 -->
             <el-form-item style="margin-top: 1rem;">
@@ -213,32 +211,3 @@ export default {
     }
 };
 </script>
-
-<style>
-.avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.avatar-uploader .el-upload:hover {
-    border-color: #409eff;
-}
-
-.avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 5rem;
-    height: 5rem;
-    line-height: 5rem;
-    text-align: center;
-}
-
-.avatar {
-    width: 5rem;
-    height: 5rem;
-    display: block;
-}
-</style>
