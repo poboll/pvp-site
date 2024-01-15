@@ -12,7 +12,7 @@ import router from './router'
 import http from './ajax'
 
 // 全局引用 CSS 样式
-import './style.css'
+import '@/assets/css/common.css'
 
 Vue.prototype.$ = http
 

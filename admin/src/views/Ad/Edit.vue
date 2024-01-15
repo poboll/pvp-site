@@ -1,5 +1,5 @@
 <template>
-    <div class="item-container">
+    <div class="container">
         <h1>{{ id ? '编辑' : '新建' }}广告位</h1>
         <el-form label-width="120px" @submit.native.prevent="save">
             <el-form-item label="名称">

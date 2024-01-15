@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <!-- 根据是否有id属性决定是编辑还是新建分类 -->
         <h1>{{ id ? '编辑' : '新建' }}分类</h1>
 

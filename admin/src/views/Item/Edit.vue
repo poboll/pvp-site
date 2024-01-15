@@ -1,5 +1,5 @@
 <template>
-    <div class="item-container">
+    <div class="container">
         <!-- 根据id属性决定是编辑还是新建物品 -->
         <h1>{{ id ? '编辑' : '新建' }}物品</h1>
         <!-- 表单，@submit.native.prevent="save" 表示在表单提交时调用 save 方法并阻止默认事件 -->

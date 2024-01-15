@@ -1,5 +1,5 @@
 <template>
-    <div class="hero-container">
+    <div class="container">
         <!-- 页面标题，根据是否有id属性决定是编辑还是新建英雄 -->
         <h1>{{ id ? '编辑' : '新建' }}英雄</h1>
         <!-- 表单，@submit.native.prevent="save" 表示在表单提交时调用 save 方法并阻止默认事件 -->
