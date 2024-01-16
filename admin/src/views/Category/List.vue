@@ -70,13 +70,12 @@ export default {
                     message: "删除成功!"
                 });
                 this.fetch()
-            })
-                .catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消删除"
-                    });
+            }).catch(() => {
+                this.$message({
+                    type: "info",
+                    message: "已取消删除"
                 });
+            });
         }
     },
     // 在组件创建时调用的生命周期钩子

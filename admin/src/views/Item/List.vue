@@ -77,13 +77,12 @@ export default {
                 });
                 // 删除成功后刷新物品列表
                 this.getItemsList();
-            })
-                .catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消删除"
-                    });
+            }).catch(() => {
+                this.$message({
+                    type: "info",
+                    message: "已取消删除"
                 });
+            });
         }
     }
 };

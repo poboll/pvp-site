@@ -70,13 +70,12 @@ export default {
                 });
                 // 删除成功后刷新文章列表
                 this.getArticleList();
-            })
-                .catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消删除"
-                    });
+            }).catch(() => {
+                this.$message({
+                    type: "info",
+                    message: "已取消删除"
                 });
+            });
         }
     }
 };

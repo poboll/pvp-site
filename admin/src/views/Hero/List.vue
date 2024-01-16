@@ -79,13 +79,12 @@ export default {
                 });
                 // 删除成功后刷新英雄列表
                 this.getHeroList();
-            })
-                .catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消删除"
-                    });
+            }).catch(() => {
+                this.$message({
+                    type: "info",
+                    message: "已取消删除"
                 });
+            });
         }
     }
 };

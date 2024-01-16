@@ -5,7 +5,7 @@
       <!-- el-aside 为侧边栏，设置宽度为 200px，背景颜色为浅灰色 -->
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <!-- el-menu 为菜单组件，使用 router 属性开启路由模式 -->
-        <el-menu router :default-openeds="['1']" :default-active="$route.path">
+        <el-menu router :default-openeds="['3']" :default-active="$route.path">
           <!-- el-submenu 为子菜单组件，index 属性为子菜单的标识 -->
           <el-submenu v-for="(submenu, index) in menu" :index="String(++index)" :key="index">
             <!-- 子菜单标题，包含一个图标和文字 -->
@@ -127,17 +127,54 @@ export default {
                   path: "/articles/list"
                 }
               ]
-            },
-            {
-              itemsTitle: "广告",
+            }
+          ]
+        },
+        {
+          title: "运营管理",
+          icon: "el-icon-message",
+          itemsGroup: [
+          {
+              itemsTitle: "广告位",
               items: [
                 {
-                  itemName: "新建广告",
+                  itemName: "新建广告位",
                   path: "/ads/create"
                 },
                 {
-                  itemName: "广告列表",
+                  itemName: "广告位列表",
                   path: "/ads/list"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          title: "系统管理",
+          icon: "el-icon-message",
+          itemsGroup: [
+            {
+              itemsTitle: "分类",
+              items: [{
+                itemName: "新建分类",
+                path: "/categories/create"
+              },
+              {
+                itemName: "分类列表",
+                path: "/categories/list"
+              }
+              ]
+            },
+            {
+              itemsTitle: "管理员",
+              items: [
+                {
+                  itemName: "新建管理员",
+                  path: "/admin_users/create"
+                },
+                {
+                  itemName: "管理员列表",
+                  path: "/admin_users/list"
                 }
               ]
             }

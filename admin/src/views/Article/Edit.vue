@@ -48,14 +48,14 @@ export default {
         };
     },
     created() {
-        // 如果有id属性，则调用getInfo方法获取文章信息
-        this.id && this.getInfo();
+        // 如果有id属性，则调用 getArticle 方法获取文章信息
+        this.id && this.getArticle();
         this.getCategories();
     },
     methods: {
         // 获取文章信息
-        async getInfo() {
-            // 使用this.$来调用Vue实例的方法，通过REST API获取文章信息
+        async getArticle() {
+            // 使用 this.$ 来调用 Vue 实例的方法，通过 REST API 获取文章信息
             let res = await this.$.get(`rest/articles/${this.id}`);
             // 将获取到的文章信息保存到article对象中
             this.article = res.data;
@@ -65,7 +65,7 @@ export default {
             let res = await this.$.get(`rest/categories`);
             this.categories = res.data;
         },
-        // 保存文章信息，根据id属性选择使用put或post请求
+        // 保存文章信息，根据 id 属性选择使用 put 或 post 请求
         async save() {
             if (this.id) {
                 await this.$.put(`rest/articles/${this.id}`, this.article);
