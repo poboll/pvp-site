@@ -19,9 +19,11 @@ const routes = [
     name: 'home',      // 路由名称
     component: Home,   // 对应的组件
     children: [        // 子路由
+      // 分类管理
       { path: '/categories/create', name: 'categoryCreate', component: CategoryEdit },  // 创建分类
       { path: '/categories/list', name: 'categoryList', component: CategoryList },  // 分类列表
       { path: '/categories/edit/:id', name: 'categoryEdit', component: CategoryEdit, props: true },  // 编辑分类，传递 id 作为 props, 将任何参数注入
+      // 物品管理
       {
         path: 'items/create',
         name: 'itemCreate',
@@ -38,6 +40,7 @@ const routes = [
         component: () => import('@/views/Item/Edit'),
         props: true
       },
+      // 英雄管理
       {
         path: 'heroes/create',
         name: 'heroCreate',
@@ -54,6 +57,7 @@ const routes = [
         component: () => import('@/views/Hero/Edit'),
         props: true
       },
+      // 文章管理
       {
         path: 'articles/create',
         name: 'articleCreate',
@@ -70,6 +74,7 @@ const routes = [
         component: () => import('@/views/Article/Edit'),
         props: true
       },
+      // 广告位管理
       {
         path: 'ads/create',
         name: 'adCreate',
@@ -86,6 +91,7 @@ const routes = [
         component: () => import('@/views/Ad/Edit'),
         props: true
       },
+      // 管理员管理
       {
         path: 'admin_users/create',
         name: 'adminCreate',
