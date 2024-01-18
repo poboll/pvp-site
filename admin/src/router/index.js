@@ -14,6 +14,12 @@ const CategoryList = () => import('@/views/Category/List.vue')
 
 // 定义路由规则
 const routes = [
+  //登录页面
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/Login')
+  },
   {
     path: '/',         // 根路径
     name: 'home',      // 路由名称

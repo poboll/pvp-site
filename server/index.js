@@ -4,6 +4,9 @@ const express = require('express');
 // 创建 Express 实例
 const app = express();
 
+// 生成密钥生成token储存在当前 Express 实例变量里，一般存储在环境变量中，这里简便处理
+app.set('secret', 'ssdasdad')
+
 // 使用 CORS 中间件，处理跨域请求
 app.use(require('cors')());
 

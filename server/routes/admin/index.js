@@ -94,4 +94,51 @@ module.exports = app => {
         file.url = `http://localhost:3000/uploads/${file.filename}`
         res.send(file)
     })
+
+    //登录接口
+    app.post('/admin/api/login', async (req, res) => {
+        // 根据参数进行解构
+        const { username, password } = req.body
+
+        // 1.根据用户名找用户
+        const Admin = require('../../models/AdminUser')
+
+        /**[键值对]
+         * 由于在Admin模型中设置了password字段默认不被查出来（select:false），如果想要查询
+         * password这个字段，用select('+password')表示增加查询password这个字段
+         */
+        const user = await Admin.findOne({ username }).select('+password')
+
+        // 查询不到用户
+        if (!user) {
+            res.send({
+                code: 0,
+                msg: '该用户不存在'
+            })
+        }
+
+        // 2.校验密码
+        // 用用户传进来的password和数据库中查到的用户password值进行对比 返回布尔值
+        let isValid = require('bcrypt').compareSync(password, user.password)
+
+        // 密码错误
+        if (!isValid) {
+            res.send({
+                code: 0,
+                msg: '密码错误'
+            })
+        }
+
+        // 3.返回token
+        const jwt = require('jsonwebtoken')
+        // 生成token(jwt签名)
+        const token = jwt.sign({
+            id: user._id
+        }, app.get('secret'))
+
+        res.send({
+            code: 1,
+            token
+        })
+    })
 };
