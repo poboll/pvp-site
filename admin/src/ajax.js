@@ -7,6 +7,19 @@ const http = axios.create({
     baseURL: 'http://localhost:3000/admin/api'
 })
 
+// 添加请求头：https://www.npmjs.com/package/axios#interceptors
+http.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    if (localStorage.token) {
+        // 授权标准请求头：'Barer '（行业规范）+ localStorage.token
+        config.headers.Authorization = `Bearer ${localStorage.token}`
+    }
+    return config;
+}, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+});
+
 // 全局拦截器
 http.interceptors.response.use((res) => {
     // Any status code that lie within the range of 2xx cause this function to trigger

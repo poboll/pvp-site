@@ -2,6 +2,15 @@
 module.exports = app => {
     // 引入 Express 库
     const express = require('express');
+    const jwt = require('jsonwebtoken')
+    // 全局报错：const assert = require('http-assert')
+    // 使用：assert(user, 422, '用户不存在')
+    // 处理：app.use(async(err, req, res, next) => {
+    //     //console.log(err)
+    //     res.status(err.statusCode || '500').send({
+    //         message: err.message
+    //     })
+    // })
 
     // 定义一个路由，这是一个 Express 的子路由
     const router = express.Router({
@@ -11,10 +20,13 @@ module.exports = app => {
         mergeParams: true
     });
 
+    // 引入Admin模型
+    const Admin = require('../../models/AdminUser')
     // 引入 Category 模型
     // const Category = require('../../models/Category');
     // 要在每个路由里面找到对应关系(url)
 
+    // 创建资源
     // 在子路由上添加 POST 方法，接口地址通过 url 判断
     router.post('/', async (req, res) => {
         try {
@@ -29,8 +41,40 @@ module.exports = app => {
         }
     });
 
+    // 资源列表
     // 在子路由上添加 GET 方法，接口地址通过 url 判断
-    router.get('/', async (req, res) => {
+    router.get('/', async (req, res, next) => {
+        // 中间件、在任意处理函数前添加 async function(req, res, next) 接收三个参数
+        // 获取用户信息：请求头
+        // split分割，pop（）提取最后的元素
+        const token = String(req.headers.authorization || '').split(' ').pop()
+        // console.log(token)
+
+        // 没有token告知用户先登录
+        if (!token) {
+            res.send({
+                code: 110,
+                msg: '请先登录'
+            })
+        }
+
+        // [结构赋值]通过从前端获取的token解密出是哪个id生成的
+        const { id } = jwt.verify(token, app.get('secret'))
+
+        // 查询出这个user挂载到req中，接下来接口即可使用
+        req.user = await Admin.findById(id)
+        console.log(req.user)
+
+        if (!req.user) {
+            res.send({
+                code: 110,
+                msg: '请先登录'
+            })
+        }
+
+        // 调用 next
+        await next()
+    }, async (req, res) => {
         try {
             // return res.send({ modelName })
             // 从请求体中获取数据，创建 req.Model 模型实例、关联取出
@@ -51,19 +95,20 @@ module.exports = app => {
         }
     });
 
-    // 通过id获取分类详情
+    // 资源详情
+    // 通过id获取资源详情
     router.get('/:id', async (req, res) => {
         const model = await req.Model.findById(req.params.id)
         res.send(model)
     });
 
-    // 更新分类
+    // 更新资源
     router.put('/:id', async (req, res) => {
         const model = await req.Model.findByIdAndUpdate(req.params.id, req.body)
         res.send(model)
     });
 
-    // 删除分类
+    // 删除资源
     router.delete('/:id', async (req, res) => {
         // await Category.findOneAndDelete(req.params.id)
         await req.Model.findByIdAndDelete(req.params.id, req.body)
@@ -101,8 +146,6 @@ module.exports = app => {
         const { username, password } = req.body
 
         // 1.根据用户名找用户
-        const Admin = require('../../models/AdminUser')
-
         /**[键值对]
          * 由于在Admin模型中设置了password字段默认不被查出来（select:false），如果想要查询
          * password这个字段，用select('+password')表示增加查询password这个字段
@@ -130,7 +173,6 @@ module.exports = app => {
         }
 
         // 3.返回token
-        const jwt = require('jsonwebtoken')
         // 生成token(jwt签名)
         const token = jwt.sign({
             id: user._id
